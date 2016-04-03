@@ -40,7 +40,7 @@ function bufferMode( contents, options, callback ) {
 
 		// Callback buffers
 		callback(null, new Buffer(encBuf,'utf8'), 
-					   new Buffer('decBuf', 'utf8') );
+					   new Buffer(decBuf, 'utf8') );
 	});
 }
 
@@ -97,19 +97,19 @@ module.exports = function( options ) {
 			// Get base name
 			var path = originalFile.path;
 			var parts = path.split("."); parts.pop();
-			var baseName =  parts.join(".");
+			var baseName = self.config.name || parts.join(".");
 			var f;
 
 			// The encode file
 			f = originalFile.clone();
 			f.contents = encContents;
-			f.path = baseName + '_encode.js';
+			f.path = baseName + '-encode.js';
 			self.push(f);
 
 			// The decode file
 			f = originalFile.clone();
 			f.contents = decContents;
-			f.path = baseName + '_decode.js';
+			f.path = baseName + '-decode.js';
 			self.push(f);
 
 	    	// We are done
@@ -124,9 +124,9 @@ module.exports = function( options ) {
 
         // Handle stream
         if (originalFile.isStream()) {
-        	streamMode( originalFile.contents, {}, finished );
+        	streamMode( originalFile.contents, this.config, finished );
         } else if (originalFile.isBuffer()) {
-        	bufferMode( originalFile.contents, {}, finished );
+        	bufferMode( originalFile.contents, this.config, finished );
         }
 
 	}

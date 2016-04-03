@@ -16,10 +16,18 @@ var jbb_profile = require('gulp-jbb-profile');
 gulp.task('profile', function() {
     return gulp
         .src([ 'specs.yml' ])
-        .pipe(jbb_profile())
+        .pipe(jbb_profile({
+            'name': 'my-profile'
+        }))
         .pipe(gulp.dest('build'));
 });
 ```
+
+## Options
+
+- `name`
+
+    The name prefix of the file to generate. If missing, the filename of the specifications will be used. The compiler will generate an `-encode.js` and `-decode.js` file for encoding and decoding your profile.
 
 ## Specification Syntax
 
@@ -94,6 +102,7 @@ The following example illustrates the previous values:
 #   inst.x = values[0]
 #   inst.y = values[1]
 #   inst.z = values[2]
+#
 THREE.Vector3:
     init: default
     properties:
@@ -134,6 +143,7 @@ THREE.Vector3:
         - more2
 
 # This will do:
+#
 #   inst = Object.create(THREE.Vector3.prototype)
 #   user_function( inst, values )
 #

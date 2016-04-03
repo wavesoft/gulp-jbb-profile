@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/wavesoft/gulp-jbb-profile#readme",
   "dependencies": {
+    "gulp-util": "^3.0.7",
     "stream-to-array": "^2.3.0",
+    "through2": "^2.0.1",
     "toposort": "^0.2.12",
     "yamljs": "^0.2.7"
   }
