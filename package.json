@@ -1,0 +1,30 @@
+{
+  "name": "gulp-jbb-profile",
+  "version": "1.0.0",
+  "description": "A gulp plug-in to compile jbb profiles from specification files",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wavesoft/gulp-jbb-profile.git"
+  },
+  "keywords": [
+    "jbb",
+    "gulp",
+    "gulpplugin",
+    "jbb-profile"
+  ],
+  "author": "Ioannis Charalampidis",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wavesoft/gulp-jbb-profile/issues"
+  },
+  "homepage": "https://github.com/wavesoft/gulp-jbb-profile#readme",
+  "dependencies": {
+    "stream-to-array": "^2.3.0",
+    "toposort": "^0.2.12",
+    "yamljs": "^0.2.7"
+  }
+}

@@ -36,7 +36,7 @@ THREE.Vector3:
 
 There are various other options available, as explained later.
 
-### Inheritance
+### `extends` - Inheritance
 
 You can also represent inheritance in the specifications file, making it simpler to re-use the parent specifications for the child. 
 
@@ -54,7 +54,7 @@ THREE.Scene:
         - children
 ```
 
-### Constructors & Initializers
+### `init` - Constructor
 
 It is important to note that jbb does not instantiate the objects in a single call, rather it separates this process in two functions:
 
@@ -65,22 +65,24 @@ Depending on each object's particularities, one of the following solutions can b
 
 <table>
     <tr>
-        <th>Code</th>
-        <th>Description<th>
-        <th>Wen to use this<th>
+        <th>Value</th>
+        <th>Description</th>
+        <th>When to use</th>
     </tr>
     <tr>
         <td>default</td>
         <td>Use the <code>new</code> keyword, with no arguments to create an object instance, and then define it's properties.</td>
-        <td>If the object constructor does not generate any data</td>
+        <td>When the object constructor is simple </td>
     </tr>
     <tr>
-        <td>late</td>
-        <td>Use the <code>Object.create(prototype)</code> method to create an empty instance, and then call it's constructor to define it's properties.</td>
+        <td><code>[ prop, ... ]</code></td>
+        <td>Use the <code>Object.create(prototype)</code> method to create an empty instance, and then call it's constructor instead of manually defining properties. The properties specified in the array will be passed to the object's constructor.</td>
         <td>If</td>
     </tr>
     <tr>
-        <td>user</td>
+        <td><code>function</code></td>
         <td>Use the <code>Object.create(prototype)</code> method to create an empty instance, and then call a user function to initialize it's properties.</td>
     </tr>
 </table>
+
+For example, if you want to call the 
