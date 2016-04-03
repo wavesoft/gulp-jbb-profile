@@ -40,7 +40,7 @@ function bufferMode( contents, options, callback ) {
 
 		// Callback buffers
 		callback(null, new Buffer(encBuf,'utf8'), 
-					   new Buffer(decBuf, 'utf8') );
+					   new Buffer(decBuf,'utf8') );
 	});
 }
 
@@ -95,21 +95,21 @@ module.exports = function( options ) {
 	    var finished = function( err, encContents, decContents ) {
 
 			// Get base name
-			var path = originalFile.path;
-			var parts = path.split("."); parts.pop();
+			var dir = path.dirname( originalFile.path );
+			var name = path.basename( originalFile.path );
+			var parts = name.split("."); parts.pop();
 			var baseName = self.config.name || parts.join(".");
-			var f;
 
 			// The encode file
-			f = originalFile.clone();
+			var f = originalFile.clone();
 			f.contents = encContents;
-			f.path = baseName + (baseName ? '-' : '') + 'encode.js';
+			f.path = path.join( dir, baseName + '-encode.js' );
 			self.push(f);
 
 			// The decode file
-			f = originalFile.clone();
+			var f = originalFile.clone();
 			f.contents = decContents;
-			f.path = baseName + (baseName ? '-' : '') + 'decode.js';
+			f.path = path.join( dir, baseName + '-decode.js' );
 			self.push(f);
 
 	    	// We are done
@@ -119,7 +119,7 @@ module.exports = function( options ) {
 
         // Nothing to do on empty files
         if (originalFile.isNull()) {
-            return done(null, file);
+            return done(null, originalFile);
         }
 
         // Handle stream

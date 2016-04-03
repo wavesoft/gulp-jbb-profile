@@ -64,7 +64,7 @@ THREE.Vector3:
 
 There are various other properties available, explained in the following sections.
 
-### `extends` - Inheritance
+### `extends`/`depends` - Inheritance
 
 Using the `extends` property you can define inheritance of properties from another object:
 
@@ -81,6 +81,8 @@ THREE.Scene:
     properties:
         - children
 ```
+
+If you don't want to inherit any properties, but you want your object to be tested before it's super-class you can use the `depends` keyword. This way it will not inherit it's properties.
 
 ### `init` - Constructor
 
