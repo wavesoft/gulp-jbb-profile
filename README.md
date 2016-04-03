@@ -29,6 +29,27 @@ gulp.task('profile', function() {
 
     The name prefix of the file to generate. If missing, the filename of the specifications will be used. The compiler will generate an `-encode.js` and `-decode.js` file for encoding and decoding your profile.
 
+## Specification Example
+
+The following is a very simple specifications file that defines the properties of two objects: `Vector2` and `Vector3`:
+
+```yaml
+@PROFILE:
+    id: 255
+    version: 1
+    name: simple
+
+Vector2:
+    properties:
+        - x
+        - y
+
+Vector3:
+    extends: Vector2
+    properties:
+        - z
+```
+
 ## Specification Syntax
 
 The syntax specifications file is a `yaml` data file that contains all the javascript objects to be supported, along with their properties. For example:
@@ -41,13 +62,11 @@ THREE.Vector3:
         - z
 ```
 
-There are various other options available, as explained later.
+There are various other properties available, explained in the following sections.
 
 ### `extends` - Inheritance
 
-You can also represent inheritance in the specifications file, making it simpler to re-use the parent specifications for the child. 
-
-To define inheritance, use the `extends` keyword to specify the parent object:
+Using the `extends` property you can define inheritance of properties from another object:
 
 ```yaml
 THREE.Object3D:
@@ -55,6 +74,8 @@ THREE.Object3D:
         - position
         - rotation
 
+# This will also inherit the properties
+# of THREE.Object3D
 THREE.Scene:
     extends: THREE.Object3D
     properties:
@@ -63,12 +84,12 @@ THREE.Scene:
 
 ### `init` - Constructor
 
-It is important to note that jbb does not instantiate the objects in a single call, rather it separates this process in two functions:
+It is important to note that jbb does not instantiate the objects in a single call, rather it separates this process in two distinct phases:
 
  1. At first, JBB will create an instance of the object, without knowing any of it's serialized properties.
  2. When the properties are known, an initialization function will be called.
 
-Depending on each object's particularities, one of the following solutions can be used:
+The `init` property can be configured according to your needs. Depending on each object's particularities, one of the following options can be used:
 
 <table>
     <tr>

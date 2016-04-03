@@ -103,13 +103,13 @@ module.exports = function( options ) {
 			// The encode file
 			f = originalFile.clone();
 			f.contents = encContents;
-			f.path = baseName + '-encode.js';
+			f.path = baseName + (baseName ? '-' : '') + 'encode.js';
 			self.push(f);
 
 			// The decode file
 			f = originalFile.clone();
 			f.contents = decContents;
-			f.path = baseName + '-decode.js';
+			f.path = baseName + (baseName ? '-' : '') + 'decode.js';
 			self.push(f);
 
 	    	// We are done
