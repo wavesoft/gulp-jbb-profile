@@ -34,10 +34,8 @@ gulp.task('profile', function() {
 The following is a very simple specifications file that defines the properties of two objects: `Vector2` and `Vector3`:
 
 ```yaml
-@PROFILE:
-    id: 255
-    version: 1
-    name: simple
+@uuid: 1
+@revision: 1
 
 Vector2:
     properties:
@@ -63,6 +61,26 @@ THREE.Vector3:
 ```
 
 There are various other properties available, explained in the following sections.
+
+### `@xxx` - Meta properties
+
+You can optionally specify various metadata properties for your profile:
+
+- `@uuid`: Specify the unique ID of this profile table
+- `@revision`: Specify the profile revision
+- `@include[.encode|.decode]`: Include the specified file (globally or only on encoding/decoding).
+- `@require[.encode|.decode]`: Require the specified node module (globally, or only on encoding/decoding).
+
+For example:
+
+```yaml
+@uuid: 0x0100
+@revision: 1
+@include: lib/CustomFunctions.js
+@include.encode: lib/EncodeFunctions.js
+@require:
+    THREE: three
+```
 
 ### `extends`/`depends` - Inheritance
 
