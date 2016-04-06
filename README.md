@@ -27,7 +27,7 @@ gulp.task('profile', function() {
 
 - `name`
 
-    The name prefix of the file to generate. If missing, the filename of the specifications will be used. The compiler will generate an `-encode.js` and `-decode.js` file for encoding and decoding your profile.
+    The name prefix of the file to generate. If missing, the filename of the input file will be used. The compiler will generate an `-encode.js` and `-decode.js` file with the encoding and decoding instructions for your profile.
 
 ## Specification Example
 
@@ -80,6 +80,14 @@ THREE.Scene:
     extends: THREE.Object3D
     properties:
         - children
+
+# This will only make THREE.Person to be
+# tested before THREE.Object3D. No properties
+# or other attributes are inherited.
+THREE.Person:
+    depends: THREE.Object3D
+    properties:
+        - position
 ```
 
 If you don't want to inherit any properties, but you want your object to be tested before it's super-class you can use the `depends` keyword. This way it will not inherit it's properties.
@@ -177,3 +185,33 @@ THREE.Vector3:
         - y
         - z
 ```
+
+### `frequent` - Frequently Encountered Flag
+
+This flag should be set to `true` if this object is frequently encountered in order to opt it in for further optimisation.
+
+_NOTE: This optimisation works only for the first 32 objects._
+
+### `postInit` - Post-init Script
+
+This property contains a script that will be executed right after the object is constructed in order to initialise the instance.
+
+The following global variables are available in your script:
+
+- `inst` : The instance of the object
+- `props` : An array of the de-serialised properties in the order they appear in the properties field.
+
+For example:
+
+```
+THREE.Mesh:
+    extends: THREE.Object3D
+    postInit: |
+        inst.updateMorphTargets();
+    properties:
+        - geometry
+        - material
+        - materialTexture
+        - materialWireframe
+```
+
