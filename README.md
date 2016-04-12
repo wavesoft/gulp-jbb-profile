@@ -198,7 +198,6 @@ THREE.Object3D:
         - red
         - green
         - blue
-```
 
 # This will do:
 #
