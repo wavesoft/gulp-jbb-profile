@@ -136,6 +136,28 @@ The `init` property can be configured according to your needs. Depending on each
         <td>When the object does more in the constructor than just assign the values to it's properties. For example, when it generates some data based on the arguments.</td>
     </tr>
     <tr>
+        <td><code>{ prop: ... }</code></td>
+        <td>Use the <code>new</code> keyword, with no arguments to create an object instance, and then define it's properties. The dictionary provides fine-grained control over the way each property gets assigned to the instance. The value of the key is a javascript snipped for assigning the value to the instance. The following macros are available:
+            <dl>
+                <dt><strong>$inst</strong></dt>
+                <dd>Expands to instance variable.</dd>
+            </dl>
+            <dl>
+                <dt><strong>$prop</strong></dt>
+                <dd>Expands to the property name.</dd>
+            </dl>
+            <dl>
+                <dt><strong>$value</strong></dt>
+                <dd>Expands to value variable.</dd>
+            </dl>
+            <dl>
+                <dt><strong>$$<em>property</em></strong></dt>
+                <dd>Expands to the value of the specified property.</dd>
+            </dl>
+        </td>
+        <td>When you are satisfied with the default, but you want a bit more fine-grained control on some properties.</td>        
+    </tr>
+    <tr>
         <td><code>function</code></td>
         <td>Use the <code>Object.create(prototype)</code> method to create an empty instance, and then call a user function to initialize it's properties.</td>
         <td>When the data needs some processing before they are assigned to the object. For example, when you need to create an image element from an image URL.</td>
@@ -158,6 +180,25 @@ THREE.Vector3:
         - x
         - y
         - z
+
+# This will do:
+#
+#   inst = new THREE.Object3D()
+#   inst.name = values[0]
+#   inst.position.copy( values[1] )
+#   inst.color.set( values[2], values[3], values[4] )
+#
+THREE.Object3D:
+    init:
+        position: $inst.position.copy( $value )
+        color: $inst.color.set( $$red, $$green, $$blue )
+    properties:
+        - name
+        - position
+        - red
+        - green
+        - blue
+```
 
 # This will do:
 #
@@ -221,7 +262,7 @@ The following global variables are available in your script:
 
 For example:
 
-```
+```yaml
 THREE.Mesh:
     extends: THREE.Object3D
     postInit: |
