@@ -66,7 +66,7 @@ There are various other properties available, explained in the following section
 
 You can optionally specify various metadata properties for your profile:
 
-- `@uuid`: Specify the unique ID of this profile table
+- `@uuid`: Specify the unique ID of this profile table (32-bit)
 - `@revision`: Specify the profile revision
 - `@include[.encode|.decode]`: Include the specified file (globally or only on encoding/decoding).
 - `@require[.encode|.decode]`: Require the specified node module (globally, or only on encoding/decoding).
@@ -99,9 +99,8 @@ THREE.Scene:
     properties:
         - children
 
-# This will only make THREE.Person to be
-# tested before THREE.Object3D. No properties
-# or other attributes are inherited.
+# This will only make sure that instances of THREE.Person are 
+# tested before THREE.Object3D. No properties or are inherited.
 THREE.Person:
     depends: THREE.Object3D
     properties:
@@ -137,24 +136,7 @@ The `init` property can be configured according to your needs. Depending on each
     </tr>
     <tr>
         <td><code>{ prop: ... }</code></td>
-        <td>Use the <code>new</code> keyword, with no arguments to create an object instance, and then define it's properties. The dictionary provides fine-grained control over the way each property gets assigned to the instance. The value of the key is a javascript snipped for assigning the value to the instance. The following macros are available:
-            <dl>
-                <dt><strong>$inst</strong></dt>
-                <dd>Expands to instance variable.</dd>
-            </dl>
-            <dl>
-                <dt><strong>$prop</strong></dt>
-                <dd>Expands to the property name.</dd>
-            </dl>
-            <dl>
-                <dt><strong>$value</strong></dt>
-                <dd>Expands to value variable.</dd>
-            </dl>
-            <dl>
-                <dt><strong>$$<em>property</em></strong></dt>
-                <dd>Expands to the value of the specified property.</dd>
-            </dl>
-        </td>
+        <td>Use the <code>new</code> keyword, with no arguments to create an object instance, and then define it's properties. The dictionary provides fine-grained control over the way each property gets assigned to the instance. The value of the key is a javascript snipped for assigning the value to the instance. Script macros are available, refer to the _Script Macros_ section below for more details.</td>
         <td>When you are satisfied with the default, but you want a bit more fine-grained control on some properties.</td>        
     </tr>
     <tr>
@@ -246,18 +228,13 @@ THREE.Vector3:
 
 ### `frequent` - Frequently Encountered Flag
 
-This flag should be set to `true` if this object is frequently encountered in order to opt it in for further optimisation.
+This flag should be set to `true` if this object is frequently encountered. Such objects are encoded in a more optimised way.
 
-_NOTE: This optimisation works only for the first 32 objects._
+_NOTE: The optimisation works only for the first 32 objects, so carefully chose your frequent objects._
 
 ### `postInit` - Post-init Script
 
-This property contains a script that will be executed right after the object is constructed in order to initialise the instance.
-
-The following global variables are available in your script:
-
-- `inst` : The instance of the object
-- `props` : An array of the de-serialised properties in the order they appear in the properties field.
+This property contains a script that will be executed right after the object is constructed in order to initialise the instance. Script macros are available, refer to the _Script Macros_ section below for more details.
 
 For example:
 
@@ -265,7 +242,7 @@ For example:
 THREE.Mesh:
     extends: THREE.Object3D
     postInit: |
-        inst.updateMorphTargets();
+        $inst.updateMorphTargets();
     properties:
         - geometry
         - material
@@ -273,3 +250,29 @@ THREE.Mesh:
         - materialWireframe
 ```
 
+## Script Macros
+
+The following macros can be used when writing in-line javascript snippets (ex. `postInit` or `init` customisations):
+
+<table>
+    <tr>
+        <th>$inst</th>
+        <td>Expands to the variable that refers to the object instance.</td>
+    </tr
+    <tr>
+        <th>$prop</th>
+        <td>Expands to the name of the current property (not available on <code>postInit</code>).</td>
+    </tr
+    <tr>
+        <th>$value</th>
+        <td>Expands to the value of the current property (not available on <code>postInit</code>).</td>
+    </tr
+    <tr>
+        <th>$values</th>
+        <td>Expands to the array that contains all the encoded properties in the order they were defined.</td>
+    </tr
+    <tr>
+        <th>$$<em>property</em></th>
+        <td>Expands to the value of the object property with the given name (as received from the de-serialization function).</td>
+    </tr
+</table>
