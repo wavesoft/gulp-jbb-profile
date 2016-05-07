@@ -94,6 +94,14 @@ module.exports = function( options ) {
 	    // Call when finished with compression
 	    var finished = function( err, encContents, decContents ) {
 
+	    	// Emmit errors
+			if (err) {
+				var error = new PluginError(PLUGIN_NAME, err, { showStack: true });
+				self.emit('error', error);
+				done();
+				return;
+			}
+
 			// Get base name
 			var dir = path.dirname( originalFile.path );
 			var name = path.basename( originalFile.path );
