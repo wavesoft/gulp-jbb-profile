@@ -1,5 +1,7 @@
 # gulp-jbb-profile
 
+[![Version](https://img.shields.io/npm/v/gulp-jbb-profile.svg?label=version&maxAge=2592000)](https://www.npmjs.com/package/gulp-jbb-profile)
+
 > Compile `jbb` profiles form specification files.
 
 ## Installation
