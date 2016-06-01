@@ -252,6 +252,24 @@ THREE.Mesh:
         - materialWireframe
 ```
 
+### `embed` - Embed resources
+
+This is an array of property names, that are string and pointing to URLs. The resources pointed by the URLs will be downloaded at compile time and embedded as a binary blob in the bundle. At decoding time, a blob URL will be used in place of the actual URL.
+
+For example:
+
+```yaml
+# This will download the file pointed by 
+# the 'url' property and store it in the bundle.
+AudioFile:
+    properties:
+        - url
+        - volume
+        - pan
+    embed:
+        - url
+```
+
 ## Script Macros
 
 The following macros can be used when writing in-line javascript snippets (ex. `postInit` or `init` customisations):
